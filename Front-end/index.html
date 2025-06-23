@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css" />
+  <title>Lancome - Super Brand Day</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+  
+</head>
+
+
+<body>
+  <div class="promo-bar">
+    -20% sur tout le site + miniatures offertes dès 120€ | Code : <strong>SUPERBRANDDAY</strong>
+  </div>
+
+<header>
+<div class="left-zone">NOUS CONTACTER</div>
+
+  <div class="logo">
+    <img src="images/Lancome-Logo.png" alt="Lancome Logo">
+  </div>
+
+  <div class="nav-icons">
+    <div>👤</div>
+    <div>🛒 (0)</div>
+    <input type="text" placeholder="Recherche" />
+  </div>
+</div>
+</header>
+
+
+  <div class="hero">
+    <p>-20% SUR TOUT LE SITE</p>
+    <p>2 MINIATURES OFFERTES DÈS 120€</p>
+    <div class="promo-code">Code: SUPERBRANDDAY</div><br>
+    <a href="#" class="btn">J'EN PROFITE</a>
+
+    <div class="products">
+      <img src="images/dior.png" alt="Produit 1" class="product-img">
+      <img src="images/Femme.png" alt="Produit 2" class="product-img">
+      <img src="images/Irresistible.png" alt="Produit 3" class="product-img">
+    </div>
+  </div>
+
+  <script type="module" defer>
+  import Chatbot from "https://cdn.n8nchatui.com/v1/embed.js";
+  Chatbot.init({
+    "n8nChatUrl": "http://localhost:5678/webhook/070a8048-89b8-4d11-a76c-764f55b0f7d3/chat", // Replace this with your n8n chat webhook URL
+    "metadata": {}, // Include any custom data to send with each message to your n8n workflow
+    "theme": {
+      "button": {
+        "backgroundColor": "#d57285",
+        "right": 10,
+        "bottom": 10,
+        "size": 30,
+        "iconColor": "#373434",
+        "customIconSrc": "https://www.svgrepo.com/show/339963/chat-bot.svg",
+        "customIconSize": 60,
+        "customIconBorderRadius": 15,
+        "autoWindowOpen": {
+          "autoOpen": false,
+          "openDelay": 2
+        },
+        "borderRadius": "circle"
+      },
+      "tooltip": {
+        "showTooltip": true,
+        "tooltipMessage": "Viens me poser des questions 👋 ",
+        "tooltipBackgroundColor": "#eccace",
+        "tooltipTextColor": "#110e0e",
+        "tooltipFontSize": 15
+      },
+      "chatWindow": {
+        "borderRadiusStyle": "rounded",
+        "avatarBorderRadius": 26,
+        "messageBorderRadius": 16,
+        "showTitle": true,
+        "title": "Mon agent Lancôme",
+        "titleAvatarSrc": "https://www.svgrepo.com/show/339963/chat-bot.svg",
+        "welcomeMessage": "Bonjour ceci est un message de bienvenue par défaut.",
+        "errorMessage": "Connectez moi à n8n",
+        "backgroundColor": "#ece4e8",
+        "height": 500,
+        "width": 450,
+        "fontSize": 12,
+        "starterPrompts": [
+          "Que vend le magasin ?",
+          ""
+        ],
+        "starterPromptFontSize": 15,
+        "renderHTML": true,
+        "clearChatOnReload": false,
+        "botMessage": {
+          "backgroundColor": "#b64959",
+          "textColor": "#fafafa",
+          "showAvatar": true,
+          "avatarSrc": "https://www.svgrepo.com/show/334455/bot.svg"
+        },
+        "userMessage": {
+          "backgroundColor": "#fff6f3",
+          "textColor": "#050505",
+          "showAvatar": true,
+          "avatarSrc": "https://www.svgrepo.com/show/532363/user-alt-1.svg"
+        },
+        "textInput": {
+          "placeholder": "Type your query",
+          "backgroundColor": "#f0dbdb",
+          "textColor": "#161617",
+          "sendButtonColor": "#f36539",
+          "maxChars": 500,
+          "maxCharsWarningMessage": "Vous avez dépassé la limite de caractères. Veuillez en mettre moins de 500.",
+          "autoFocus": false,
+          "borderRadius": 14,
+          "sendButtonBorderRadius": 50
+        }
+      }
+    }
+    });
+  </script>
+</body>
+</html>
