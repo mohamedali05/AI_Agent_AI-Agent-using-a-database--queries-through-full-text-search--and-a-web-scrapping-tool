@@ -6,6 +6,8 @@ from contextlib import asynccontextmanager
 from collections.abc import AsyncIterator
 import psycopg2
 from psycopg2.extensions import connection
+from difflib import get_close_matches
+
 
 
 
@@ -22,8 +24,12 @@ host = os.getenv("DB_HOST", "localhost")
 # Connexion à la base de données PostgreSQL
 
 MCP_PORT = int(os.getenv("MCP_PORT", "5001"))
-DB_PORT = int(os.getenv("DB_PORT", "5432"))
+DB_PORT = 5432
 (print(f"Connecting to PostgreSQL at {host}:{DB_PORT}..."))
+
+
+teintes_connues = ["claire", "moyenne", "foncée" , "moyenne claire" , 
+                   "moyenne foncée" , "moyenne" , "foncée" , "très foncée"]
 
 
 # Configuration du logging
@@ -44,7 +50,7 @@ async def app_lifespan(_: FastMCP) -> AsyncIterator[AppContext]:
     user="postgres",
     password="3Gy5uwht4*",
     host=host,  
-    port="5432"
+    port= DB_PORT,
     )
     yield AppContext(conn=conn)
     conn.close()
@@ -102,15 +108,15 @@ def search_products(phrase: str, ctx: Context = None) -> Dict[str, Any]:
         return {"error": str(e), "result": [], "count": 0}
     
 @mcp.tool()
-def recommended_products_by_skin_phrase(phrase: str, ctx: Context = None) -> Dict[str, Any]:
+def recommended_products_by_skin_tone(teinte: str, ctx: Context = None) -> Dict[str, Any]:
     """
-    Recommande des produits à partir d'une phrase décrivant la teinte de peau, 
+    Recommande des produits à partir de la teinte de peau, 
     en utilisant le full text search sur la table Teinte_Peau_Produits.
 
     Paramètres :
     ----------
-    phrase : str
-        Phrase ou mots-clés décrivant une teinte de peau (ex. : "claire", "très foncée", "moyenne foncée").
+    teinte : str
+        la teinte de peau (ex. : "claire", "très foncée", "moyenne foncée").
 
     ctx : Context, optionnel
         Contexte d'exécution du serveur MCP contenant la connexion PostgreSQL.
@@ -130,7 +136,7 @@ def recommended_products_by_skin_phrase(phrase: str, ctx: Context = None) -> Dic
                 FROM Product p
                 JOIN Teinte_Peau_Produits t ON p.id = t.id_product
                 WHERE to_tsvector('french', t.teinte) @@ plainto_tsquery('french', %s)
-            """, (phrase,))
+            """, (teinte,))
             rows = cur.fetchall()
             columns = [desc[0] for desc in cur.description]
             result = [dict(zip(columns, row)) for row in rows]

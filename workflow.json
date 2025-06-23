@@ -4,15 +4,15 @@
       "parameters": {
         "hasOutputParser": true,
         "options": {
-          "systemMessage": "=Tu es un assistant qui travaille dans une boutique de beauté. "
+          "systemMessage": "=Tu es un assistant qui travaille dans une boutique de beauté. Tu t'adresses à Marie une cliente qui a la teinte de peau claire. \nAide la du mieux que tu peux en utilisant les outils à ta disposition. Tu la tutoie"
         }
       },
-      "id": "79538e4f-8bdc-4b16-9381-8823e2e70b96",
+      "id": "6ed52bb7-9013-4278-ab87-7a7565a54849",
       "name": "AI Agent",
       "type": "@n8n/n8n-nodes-langchain.agent",
       "position": [
-        -200,
-        -360
+        400,
+        140
       ],
       "typeVersion": 1.8
     },
@@ -21,12 +21,12 @@
         "sessionIdType": "customKey",
         "sessionKey": "=a"
       },
-      "id": "0eb5484a-71eb-4c51-b689-9412b7eb6ecf",
+      "id": "52b8aafe-ea71-4f97-ac35-1a908727e2ca",
       "name": "Simple Memory",
       "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
       "position": [
-        -180,
-        -140
+        420,
+        360
       ],
       "typeVersion": 1.3
     },
@@ -40,12 +40,12 @@
         },
         "options": {}
       },
-      "id": "2cc075e9-63cb-4582-9d09-0850d71b00df",
+      "id": "50a4dddb-bf49-4c79-b267-1ff550647964",
       "name": "OpenAI 4o",
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "position": [
-        -300,
-        -140
+        300,
+        360
       ],
       "typeVersion": 1.2,
       "credentials": {
@@ -62,23 +62,23 @@
       "type": "@n8n/n8n-nodes-langchain.mcpClientTool",
       "typeVersion": 1,
       "position": [
-        -60,
-        -140
+        540,
+        360
       ],
-      "id": "ee30ac37-63ff-4f2f-9d3c-27573570119c",
+      "id": "e775122b-245b-4274-8c8f-c3306b1a97f6",
       "name": "MCP Client"
     },
     {
       "parameters": {
         "options": {}
       },
-      "id": "8bc01e5b-13ba-48c1-bb6e-d2e22037027c",
+      "id": "b49330e1-1995-438c-8dc6-cf59f78fd968",
       "name": "Embeddings OpenAI1",
       "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
       "typeVersion": 1.1,
       "position": [
-        140,
-        60
+        660,
+        500
       ],
       "credentials": {
         "openAiApi": {
@@ -100,13 +100,13 @@
         },
         "options": {}
       },
-      "id": "3cb31fe5-986f-4041-b2b5-21ae8dfe2fe1",
+      "id": "47b9d774-3539-418f-b21e-dceda0a66ab2",
       "name": "Supabase Vector Store1",
       "type": "@n8n/n8n-nodes-langchain.vectorStoreSupabase",
       "typeVersion": 1,
       "position": [
-        60,
-        -140
+        660,
+        360
       ],
       "credentials": {
         "supabaseApi": {
@@ -124,10 +124,10 @@
       "type": "@n8n/n8n-nodes-langchain.chatTrigger",
       "typeVersion": 1.1,
       "position": [
-        -520,
-        -360
+        80,
+        140
       ],
-      "id": "01ed72fb-b426-4b41-953b-f9873f60fb63",
+      "id": "2cb2f644-9c77-410c-9a59-e965df67fda2",
       "name": "When chat message received",
       "webhookId": "c2604b84-2e17-45a3-bf48-e990b9ad7235"
     },
@@ -141,19 +141,14 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -760,
-        -520
+        -160,
+        -40
       ],
-      "id": "67447850-9c2c-48d8-ac54-658d785d19e0",
+      "id": "f5fc167b-6e53-49eb-869f-560195c56f4b",
       "name": "Sticky Note1"
     }
   ],
   "connections": {
-    "AI Agent": {
-      "main": [
-        []
-      ]
-    },
     "Simple Memory": {
       "ai_memory": [
         [
@@ -199,9 +194,6 @@
       ]
     },
     "Supabase Vector Store1": {
-      "ai_vectorStore": [
-        []
-      ],
       "ai_tool": [
         [
           {
@@ -226,7 +218,6 @@
   },
   "pinData": {},
   "meta": {
-    "templateCredsSetupCompleted": true,
     "instanceId": "f1389f10aad12c4506f8419156143d998317c966dd4591fd07c7ff89a29067e2"
   }
 }
