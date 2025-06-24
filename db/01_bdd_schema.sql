@@ -30,3 +30,4 @@ ADD COLUMN tsv tsvector GENERATED ALWAYS AS (
 ) STORED;
 
 CREATE INDEX idx_product_tsv ON Product USING GIN(tsv);
+CREATE EXTENSION IF NOT EXISTS pg_trgm;

@@ -71,41 +71,49 @@ mcp = FastMCP(
 @mcp.tool()
 def search_products(phrase: str, ctx: Context = None) -> Dict[str, Any]:
     """
-    Recherche les produits qui correspondent à la phrase en utilisant PostgreSQL full text search.
+    Recherche les produits en utilisant la similarité sur la concaténation de
+    nom, description, ingrédients et origine.
 
     Paramètres :
     ----------
     phrase : str
-        Une phrase ou une série de mots-clés saisis par l'utilisateur, utilisée pour rechercher
-        les produits pertinents en texte intégral dans les champs nom, description, ingrédients, origine.
-
+        phrase de recherche pour trouver des produits pertinents.
     ctx : Context, optionnel
-        Contexte d'exécution fourni par le serveur MCP, contenant la connexion à la base de données.
+        Contexte d'exécution du serveur MCP contenant la connexion PostgreSQL.
 
     Retour :
     -------
     dict
         Un dictionnaire contenant :
-        - "result" : liste de produits pertinents (, nom, description, ingrédients, origine, prix)
-        - "count" : nombre total de résultats retournés
-        - "error" : (optionnel) message d'erreur si la requête échoue
+        - "result" : liste des produits pertinents (nom, description, ingrédients, origine, prix)
+        - "count" : nombre de produits trouvés
+        - "error" : message d'erreur si la requête échoue
     """
     try:
         with ctx.request_context.lifespan_context.conn.cursor() as cur:
-            # On utilise plainto_tsquery pour une recherche simple et efficace
             cur.execute("""
-                SELECT  nom, description, ingredients, origine, prix
+                SELECT nom, description, ingredients, origine, prix,
+                       similarity(
+                           nom || ' ' || description || ' ' || ingredients || ' ' || origine, 
+                           %s::text
+                       ) AS score
                 FROM Product
-                WHERE tsv @@ plainto_tsquery('french', %s)
-                ORDER BY ts_rank(tsv, plainto_tsquery('french', %s)) DESC;
+                WHERE similarity(
+                          nom || ' ' || description || ' ' || ingredients || ' ' || origine, 
+                          %s::text
+                      ) > 0.1
+                ORDER BY score DESC
+                LIMIT 20;
             """, (phrase, phrase))
+            
             rows = cur.fetchall()
             columns = [desc[0] for desc in cur.description]
             result = [dict(zip(columns, row)) for row in rows]
             return {"result": result, "count": len(result)}
     except Exception as e:
-        logger.error(f"Search error: {e}")
+        logger.error(f"Similarity product search error: {e}")
         return {"error": str(e), "result": [], "count": 0}
+
     
 @mcp.tool()
 def recommended_products_by_skin_tone(teinte: str, ctx: Context = None) -> Dict[str, Any]:
